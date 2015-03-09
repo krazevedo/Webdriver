@@ -67,8 +67,16 @@ public class DetalhesDoCliente extends TestBase{
 	
 	@After
 	public void tearDown(){
-		String verificationErrorString = detalhesPage.verificationErrors.toString();
+		String verificationErrorString = loginPage.verificationErrors.toString();
+		String verificationErrorString2 = clientesPage.verificationErrors.toString();
+		String verificationErrorString3 = detalhesPage.verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
+			fail(verificationErrorString);
+		}
+		if (!"".equals(verificationErrorString2)) {
+			fail(verificationErrorString);
+		}
+		if (!"".equals(verificationErrorString3)) {
 			fail(verificationErrorString);
 		}
 		driver.quit();

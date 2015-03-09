@@ -13,6 +13,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
+import com.ciandt.selenium.redenatura.helpers.DataDriven;
 import com.ciandt.selenium.redenatura.painelAdmin.TestBase;
 
 
@@ -20,10 +21,12 @@ public class PedidosPage extends TestBase{
 
 	public StringBuffer verificationErrors = new StringBuffer();
 	CssSelectors css = new CssSelectors();
+	DataDriven properties = new DataDriven();
 	public String valorGrid;
 
 	public void selecionarMenu() throws Exception{
 		driver.findElement(css.menuPedidos).click();
+		Thread.sleep(2000);
 		driver.findElement(css.primeiroSubmenu).click();
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
@@ -63,14 +66,15 @@ public class PedidosPage extends TestBase{
 
 
 	public void validaValoresBoxes()throws Exception{
+		properties.lerArquivo();
 		Thread.sleep(5000);
 		try {
-			assertEquals("1", driver.findElement(css.pedidosAprovados).getText());
+			assertEquals(properties.getProperties().getProperty("pedido.aprovado"), driver.findElement(css.pedidosAprovados).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("0%", driver.findElement(css.taxaConversaoP).getText());
+			assertEquals(properties.getProperties().getProperty("pedido.conversao"), driver.findElement(css.taxaConversaoP).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}		
@@ -124,57 +128,59 @@ public class PedidosPage extends TestBase{
 		}
 	}
 
-	public void validaValoresTabelas(){
+	public void validaValoresTabelas() throws Exception{
+		properties.lerArquivo();
 		try {
-			assertEquals("fa fa-square text-navy PENDING_MERCHANT_ACTION", driver.findElement(css.primeiraColunaIcone).getAttribute("class"));
+			assertEquals(properties.getProperties().getProperty("pedido.status.label"), driver.findElement(css.primeiraColunaIcone).getAttribute("class"));
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("Pedido realizado", driver.findElement(css.legendaIcone).getText());
+			assertEquals(properties.getProperties().getProperty("pedido.status.pagamento"), driver.findElement(css.legendaIcone).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("75855038", driver.findElement(css.primeiraColunaLink).getText());
+			assertEquals(properties.getProperties().getProperty("pedido.id"), driver.findElement(css.primeiraColunaLink).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("Teste CIT", driver.findElement(css.segundaColunaLink).getText());
+			assertEquals(properties.getProperties().getProperty("pedido.cliente"), driver.findElement(css.segundaColunaLink).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("24/12/2014", driver.findElement(css.terceiraColunaSpam).getText());
+			assertEquals(properties.getProperties().getProperty("pedido.data.compra"), driver.findElement(css.terceiraColunaSpam).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("R$64,20", driver.findElement(css.quartaColuna).getText());
+			assertEquals(properties.getProperties().getProperty("pedido.valor"), driver.findElement(css.quartaColuna).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 	}	
 
 	public void validaQuantidadePedidos(String status) throws Exception{
+		properties.lerArquivo();
 		Thread.sleep(5000);
 		switch (status){
 		case "realizado" : 		
 			try {
-				assertEquals("4", driver.findElement(By.cssSelector("span.label.yellow-bg")).getText()); break;
+				assertEquals(properties.getProperties().getProperty("pedido.realizado"), driver.findElement(By.cssSelector("span.label.yellow-bg")).getText()); break;
 			} catch (Error e) {
 				verificationErrors.append(e.toString());
 			}
 		case "aprovado" :
 			try {
-				assertEquals("1", driver.findElement(By.cssSelector("span.label.label-primary")).getText()); break;
+				assertEquals(properties.getProperties().getProperty("pedido.aprovado"), driver.findElement(By.cssSelector("span.label.label-primary")).getText()); break;
 			} catch (Error e) {
 				verificationErrors.append(e.toString());
 			}
 		case "cancelado" :
 			try {
-				assertEquals("1", driver.findElement(By.cssSelector("div > span.label.label-danger.ng-binding")).getText()); break;
+				assertEquals(properties.getProperties().getProperty("pedido.cancelado"), driver.findElement(By.cssSelector("div > span.label.label-danger.ng-binding")).getText()); break;
 			} catch (Error e) {
 				verificationErrors.append(e.toString());
 			}
