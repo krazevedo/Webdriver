@@ -1,5 +1,6 @@
 package com.ciandt.selenium.redenatura.helpers;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -8,15 +9,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.ciandt.selenium.redenatura.helpers.DataDriven;
+
 public class Geral{
-	public String datapicker = "Dezembro 2014";
-	public Integer semana = 4;
-	public String baseURL = "http://alfeu:7005";
-	
+	DataDriven properties = new DataDriven();	
 	CssSelectors css = new CssSelectors();
 
-	public void abrir(WebDriver driver){
-		driver.get(baseURL + "/#/inicio");	
+	public void abrir(WebDriver driver) throws IOException{
+		properties.lerArquivo();
+		driver.get(properties.getProperties().getProperty("url"));	
 	}
 		
 	public void realizarBusca(WebDriver driver, String pesquisa) throws Exception{

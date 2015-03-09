@@ -106,9 +106,9 @@ public class CssSelectors {
 	  public By pergunta3Aba4 = By.cssSelector("div#accordion4 > div:nth-child(3) > div > a > span");
 	  public By pergunta4Aba4 = By.cssSelector("div#accordion4 > div:nth-child(4) > div > a > span");
 	  
-	  public By pergunta1Aba5 = By.cssSelector("div#accordion5 > div:nth-child(1) > div > a > span");
-	  public By pergunta2Aba5 = By.cssSelector("div#accordion5 > div:nth-child(2) > div > a > span");
-	  public By pergunta3Aba5 = By.cssSelector("div#accordion5 > div:nth-child(3) > div > a > span");
+	  public By pergunta1Aba5 = By.cssSelector("div#accordion5 > div:nth-child(2) > div > a > span");
+	  public By pergunta2Aba5 = By.cssSelector("div#accordion5 > div:nth-child(3) > div > a > span");
+	  public By pergunta3Aba5 = By.cssSelector("div#accordion5 > div:nth-child(4) > div > a > span");
 	  
 	  public By pergunta1Aba6 = By.cssSelector("div#accordion6 > div:nth-child(1) > div > a > span");
 	  public By pergunta2Aba6 = By.cssSelector("div#accordion6 > div:nth-child(2) > div > a > span");

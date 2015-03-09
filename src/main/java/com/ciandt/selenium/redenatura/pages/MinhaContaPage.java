@@ -15,7 +15,7 @@ public class MinhaContaPage extends TestBase{
 		}
 		String previousURL = driver.getCurrentUrl();
 		try {
-			assertEquals("https://s.rede.natura.net/minha-conta", previousURL);
+			assertEquals("https://s.rede.natura.net/recuperar-acesso", previousURL);
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}

@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 import org.junit.After;
 import org.junit.Test;
 
+import com.ciandt.selenium.redenatura.helpers.DataDriven;
 import com.ciandt.selenium.redenatura.helpers.Geral;
 import com.ciandt.selenium.redenatura.pages.CadastroPage;
 import com.ciandt.selenium.redenatura.pages.ContagemPage;
@@ -19,18 +20,21 @@ public class Login extends TestBase{
 	CadastroPage cadastroPage = new CadastroPage();
 	MinhaContaPage contaPage = new MinhaContaPage();
 	Geral geral = new Geral();
+	DataDriven properties = new DataDriven();
 
 	@Test
 	public void loginInvalido() throws Exception {
+		properties.lerArquivo();
 		geral.abrir(driver);
-		loginPage.logar("xxxxx@a.com", "123qwe123");
+		loginPage.logar("xxxxx@a.com", properties.getProperties().getProperty("login.active.password"));
 		loginPage.validarMensagemLoginInvalido();
 	}
 	
 	@Test
 	public void validarFormatoEmailInvalido() throws Exception {
+		properties.lerArquivo();
 		geral.abrir(driver);
-		loginPage.logar("xxxxx", "123qwe123");
+		loginPage.logar("xxxxx", properties.getProperties().getProperty("login.active.password"));
 		loginPage.validarMensagemFormatoInvalido();
 	}
 
@@ -44,14 +48,16 @@ public class Login extends TestBase{
 
 	@Test
 	public void validarSoLoginNulo() throws Exception {
+		properties.lerArquivo();
 		geral.abrir(driver);
-		loginPage.logar("", "123qwe123");
+		loginPage.logar("", properties.getProperties().getProperty("login.active.password"));
 	}
 
 	@Test
 	public void validarSenhaNulo() throws Exception {
+		properties.lerArquivo();
 		geral.abrir(driver);
-		loginPage.logar("thiago2@a.com", "");
+		loginPage.logar(properties.getProperties().getProperty("login.active"), "");
 	}
 
 	@Test
@@ -70,70 +76,51 @@ public class Login extends TestBase{
 
 	@Test
 	public void validarCndActive() throws Exception {
+		properties.lerArquivo();
 		geral.abrir(driver);
-		loginPage.logar("thiago2@a.com", "123qwe123");
+		loginPage.logar(properties.getProperties().getProperty("login.active"), properties.getProperties().getProperty("login.active.password"));
 		homePage.verificarLogin();
 	}
 
 	@Test
 	public void validarCndActiveAndNotAccepted() throws Exception {
+		properties.lerArquivo();
 		geral.abrir(driver);
-		loginPage.logar("aa26@aa.aa", "A1A2A3");
+		loginPage.logar(properties.getProperties().getProperty("login.activenotaccepted"), properties.getProperties().getProperty("login.activenotaccepted.password"));
 		homePage.verificarLogin();
 	}
 	
 	@Test
 	public void validarCndCancelled() throws Exception {
+		properties.lerArquivo();
 		geral.abrir(driver);
-		loginPage.logar("aa34@aa.aa", "A1A2A3");
+		loginPage.logar(properties.getProperties().getProperty("login.cancelled"), properties.getProperties().getProperty("login.cancelled.password"));
 		homePage.verificarLogin();
 	}
 	
 	@Test
 	public void validarCndInactive() throws Exception {
+		properties.lerArquivo();
 		geral.abrir(driver);
-		loginPage.logar("aa39@aa.aa", "A1A2A3");
+		loginPage.logar(properties.getProperties().getProperty("login.inactive"), properties.getProperties().getProperty("login.inactive.password"));
 		homePage.verificarLogin();
 	}
 	
 	@Test
 	public void validarCndWaiting() throws Exception {
+		properties.lerArquivo();
 		geral.abrir(driver);
-		loginPage.logar("aa190@mailinator.com", "A1A2A3");
+		loginPage.logar(properties.getProperties().getProperty("login.waiting"), properties.getProperties().getProperty("login.waiting.password"));
 		contagemPage.verificaPaginaContagem();
 	}
-/*	
-	@Test
-	public void validarDesistenciaAssinaturaBotaoX() throws Exception {
-		geral.abrir(driver);
-		loginPage.logar("thiago2@a.com", "inicial1");
-		
-	}
-	
-	@Test
-	public void validarDesistenciaAssinaturaBotaoDesistir() throws Exception {
-		geral.abrir(driver);
-		loginPage.logar("thiago2@a.com", "inicial1");
-		
-	}
-	
-	@Test
-	public void cookie() throws Exception {
-		geral.abrir();
-		loginPage.logar("thiago2@a.com", "123qwe123");
-		loginPage.getCookieAntes();		
-		loginPage.fecharBrowser();
-		loginPage.getCookieDepois();
-		loginPage.compararCookies();
-	}*/
-	
-	
 
 	@After
 	public void tearDown(){
-		String verificationErrorString = loginPage.verificationErrors.toString();
+		String verificationErrorString  = loginPage.verificationErrors.toString();
 		String verificationErrorString2 = cadastroPage.verificationErrors.toString();
 		String verificationErrorString3 = contaPage.verificationErrors.toString();
+		String verificationErrorString4 = homePage.verificationErrors.toString();
+		String verificationErrorString5 = contagemPage.verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
 			fail(verificationErrorString);
 		}
@@ -141,6 +128,12 @@ public class Login extends TestBase{
 			fail(verificationErrorString2);
 		}
 		if (!"".equals(verificationErrorString3)) {
+			fail(verificationErrorString3);
+		}
+		if (!"".equals(verificationErrorString4)) {
+			fail(verificationErrorString3);
+		}
+		if (!"".equals(verificationErrorString5)) {
 			fail(verificationErrorString3);
 		}
 		driver.close();

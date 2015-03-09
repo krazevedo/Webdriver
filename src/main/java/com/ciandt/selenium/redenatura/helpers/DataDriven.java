@@ -13,7 +13,7 @@ public class DataDriven {
 			//Create Object of Properties Class.
 			obj = new Properties();   
 			//Create Object of FileInputStream Class. Pass file path.
-			File file = new File("src\\main\\resources\\regressao.properties");
+			File file = new File("src\\main\\resources\\painel.properties");
 			FileInputStream fileInput = null;
 			fileInput = new FileInputStream(file);
 			//Pass object reference objfile to load method of Properties object.

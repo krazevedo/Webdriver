@@ -2,11 +2,7 @@ package com.ciandt.selenium.redenatura.pages;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import java.util.Date;
+import java.io.IOException;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -14,6 +10,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
+import com.ciandt.selenium.redenatura.helpers.DataDriven;
 import com.ciandt.selenium.redenatura.painelAdmin.TestBase;
 
 
@@ -21,9 +18,11 @@ public class ClientesPage extends TestBase{
 
 	public StringBuffer verificationErrors = new StringBuffer();
 	CssSelectors css = new CssSelectors();
-
+	DataDriven properties = new DataDriven();
+	
 	public void selecionarMenu() throws Exception{
 		driver.findElement(css.menuVisitas).click();
+		Thread.sleep(2000);
 		driver.findElement(css.segundoSubmenu).click();
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
@@ -32,20 +31,7 @@ public class ClientesPage extends TestBase{
 		}
 	}
 
-	public void validaValoresBoxes()throws Exception{
-		Thread.sleep(5000);
-		try {
-			assertEquals("1", driver.findElement(css.pedidosAprovados).getText());
-		} catch (Error e) {
-			verificationErrors.append(e.toString());
-		}
-		try {
-			assertEquals("0%", driver.findElement(css.taxaConversaoP).getText());
-		} catch (Error e) {
-			verificationErrors.append(e.toString());
-		}		
-	}
-
+	
 	public void validaColunasGrid() throws Exception{
 		Thread.sleep(5000);
 		List<WebElement> forms = driver.findElements(css.nomeColunasGrid);
@@ -75,7 +61,7 @@ public class ClientesPage extends TestBase{
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("Valor c/ frete", forms.get(5).getText());
+			assertEquals("Valor (com frete)", forms.get(5).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
@@ -86,29 +72,30 @@ public class ClientesPage extends TestBase{
 		}
 	}
 
-	public void validaValoresTabelas(){
+	public void validaValoresTabelas() throws IOException{
+		properties.lerArquivo();
 		try {
-			assertEquals("Kaio Azevedo", driver.findElement(css.primeiraColunaLink).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.nome"), driver.findElement(css.primeiraColunaLink).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("16/08/1950", driver.findElement(css.segundaColuna).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.nascimento"), driver.findElement(css.segundaColuna).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("3", driver.findElement(css.terceiraColunaSpam).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.compras"), driver.findElement(css.terceiraColunaSpam).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("75851202", driver.findElement(css.quartaColunaLink).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.ultimo.pedido"), driver.findElement(css.quartaColunaLink).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("R$163,20", driver.findElement(css.quintaColuna).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.valor.pedido"), driver.findElement(css.quintaColuna).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}

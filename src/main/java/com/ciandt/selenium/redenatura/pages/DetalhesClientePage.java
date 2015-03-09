@@ -6,6 +6,7 @@ package com.ciandt.selenium.redenatura.pages;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
+import com.ciandt.selenium.redenatura.helpers.DataDriven;
 import com.ciandt.selenium.redenatura.helpers.Geral;
 import com.ciandt.selenium.redenatura.painelAdmin.TestBase;
 
@@ -22,17 +24,20 @@ public class DetalhesClientePage extends TestBase{
 	CssSelectors css = new CssSelectors();
 	public String valorGrid;
 	Geral geral = new Geral();
+	DataDriven properties = new DataDriven();
 
-	public void verificaUrl(){
+	public void verificaUrl() throws IOException{
+		properties.lerArquivo();
 		String previousURL = driver.getCurrentUrl();
 		try {
-			assertEquals(geral.baseURL + "/#/perfil-do-cliente/10092829", previousURL);
+			assertEquals(properties.getProperties().getProperty("url") + "/#/perfil-do-cliente/" + properties.getProperties().getProperty("cliente.id"), previousURL);
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 	}
 
 	public void verificaTotalPedido() throws Exception{
+		properties.lerArquivo();
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if ("Sub Total:".equals(driver.findElement(By.cssSelector("table.table.invoice-total > tbody > tr > td > strong.ng-scope")).getText())) break; } catch (Exception e) {}
@@ -54,13 +59,14 @@ public class DetalhesClientePage extends TestBase{
 			}
 		}
 		try {
-			assertEquals("64.2", String.valueOf(total));
+			assertEquals(properties.getProperties().getProperty("detalhe.cliente.valor.pedido"), String.valueOf(total));
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 	}
 
 	public void verificaDescricaoProduto() throws Exception{
+		properties.lerArquivo();
 		for (int second = 0;; second++) {
 			if (second >= 60) fail("timeout");
 			try { if ("Sub Total:".equals(driver.findElement(By.cssSelector("table.table.invoice-total > tbody > tr > td > strong.ng-scope")).getText())) break; } catch (Exception e) {}
@@ -69,18 +75,29 @@ public class DetalhesClientePage extends TestBase{
 		WebElement baseTable = driver.findElement(By.cssSelector("div > div > rn-order-list > div > div > table.invoice-table"));
 		List<WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
 		try {
-			assertEquals("Creme Hidratante Iluminador para Colo, Braços e Pernas Amora e Amêndoas Tododia", tableRows.get(1).findElements(By.tagName("td")).get(1).getText());
+			assertEquals(properties.getProperties().getProperty("detalhe.cliente.item1"), tableRows.get(1).findElements(By.tagName("td")).get(1).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("Sabonete Líquido para o Corpo Amora e Amêndoas Tododia", tableRows.get(2).findElements(By.tagName("td")).get(1).getText());
+			assertEquals(properties.getProperties().getProperty("detalhe.cliente.item2"), tableRows.get(2).findElements(By.tagName("td")).get(1).getText());
+		} catch (Error e) {
+			verificationErrors.append(e.toString());
+		}
+		try {
+			assertEquals(properties.getProperties().getProperty("detalhe.cliente.item3"), tableRows.get(3).findElements(By.tagName("td")).get(1).getText());
+		} catch (Error e) {
+			verificationErrors.append(e.toString());
+		}
+		try {
+			assertEquals(properties.getProperties().getProperty("detalhe.cliente.item4"), tableRows.get(4).findElements(By.tagName("td")).get(1).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 	}
 
 	public void verificaTotalItem() throws Exception{		
+		properties.lerArquivo();
 		WebElement baseTable = driver.findElement(By.cssSelector("div > div > rn-order-list > div > div.col-md-12 > table.invoice-table"));
 		List<WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
 		double soma = 0.0;		
@@ -89,14 +106,14 @@ public class DetalhesClientePage extends TestBase{
 		soma = (Integer.parseInt(cellRows.get(2).getText()) * Double.parseDouble(cellRows.get(3).getText().replaceAll("R|\\$| ", "").replaceAll(",", "."))) - Double.parseDouble(cellRows.get(4).getText().replaceAll("R|\\$| ", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll(",", "."));				
 		BigDecimal total = new BigDecimal(soma).setScale(2, RoundingMode.HALF_UP);
 		try {
-			assertEquals("37.40", String.valueOf(total));
+			assertEquals(properties.getProperties().getProperty("detalhe.cliente.valor.item1"), String.valueOf(total));
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 	}
 
 	public  String pegaValorGrid(){
-		valorGrid = driver.findElement(css.quartaColuna).getText();	
+		valorGrid = driver.findElement(css.quintaColuna).getText();	
 		return valorGrid;
 	}
 
