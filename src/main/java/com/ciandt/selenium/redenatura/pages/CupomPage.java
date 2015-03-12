@@ -16,6 +16,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import com.ciandt.selenium.redenatura.helpers.GeradorDeNome;
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
 import com.ciandt.selenium.redenatura.helpers.DataDriven;
 import com.ciandt.selenium.redenatura.helpers.Geral;
@@ -27,6 +28,7 @@ public class CupomPage extends TestBase{
 	CssSelectors css = new CssSelectors();
 	Geral geral = new Geral();
 	DataDriven properties = new DataDriven();
+	GeradorDeNome nome = new GeradorDeNome();
 
 
 	public void selecionarMenu() throws Exception{
@@ -60,7 +62,8 @@ public class CupomPage extends TestBase{
 		Thread.sleep(2000);
 		driver.findElement(By.linkText("Veja sugestão")).click();
 		Thread.sleep(5000);
-		palavraSecreta = driver.findElement(By.id("secret-word")).getAttribute("value");
+		palavraSecreta = driver.findElement(By.id("secret-word")).getAttribute("value") + nome.gerarNome();
+		driver.findElement(By.id("secret-word")).sendKeys(palavraSecreta);
 		driver.findElement(By.name("account")).click();
 		new Select(driver.findElement(By.name("account"))).selectByVisibleText("12%");
 		WebElement scroll = driver.findElement(By.cssSelector("rn-coupon-maker > div > div > div > div > h2"));
@@ -82,29 +85,55 @@ public class CupomPage extends TestBase{
 
 		WebElement baseTable = driver.findElement(By.cssSelector("div#DataTables_Table_0_wrapper"));
 		List<WebElement> tableRows = baseTable.findElements(By.className("ngCell"));
-		List<WebElement> cellRows = tableRows.get(0).findElements(By.className("ngCellText"));
-		for (int x=0; x < cellRows.size(); x++){
-			if  (palavraSecreta.equals(cellRows.get(x).getText())) {
+		for (int x=0; x < tableRows.size(); x = x + 6){
+			List<WebElement> cellRows = tableRows.get(x).findElements(By.className("ngCellText"));
+			if  (palavraSecreta.equals(cellRows.get(0).getText())) {
 				break;				 
-			}
+			}		
 		}
 	}
 
 	public void encerrarCupom() throws Exception{
+		Thread.sleep(2000);
 		WebElement scroll2 = driver.findElement(By.cssSelector("div.cupons-utilizados > div > div > div > div.cupons-ativos > h2"));
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", scroll2);
 		Thread.sleep(500);
-		
-		WebElement baseTable = driver.findElement(By.cssSelector("div#DataTables_Table_0_wrapper"));
-		List<WebElement> tableRows = baseTable.findElements(By.className("ngCell"));
-		List<WebElement> cellRows = tableRows.get(5).findElements(By.className("ngCellText"));
-		for (int x=0; x < cellRows.size(); x++){
-			cellRows.get(x).findElement(By.tagName("a")).click();
+		for (int x=0; x < 3; x++){
+			WebElement baseTable = driver.findElement(By.cssSelector("div#DataTables_Table_0_wrapper"));
+			List<WebElement> tableRows = baseTable.findElements(By.className("ngCell"));
+			if (tableRows.size() == 0){
+				x = x + 3;
+			}
+			List<WebElement> cellRows = tableRows.get(5).findElements(By.className("ngCellText"));
+			cellRows.get(0).findElement(By.tagName("a")).click();
+			Thread.sleep(2000);
 			assertEquals("Cupom cancelado com sucesso.", driver.findElement(By.cssSelector("div.modal-body > h2.ng-binding")).getText());
-			driver.findElement(By.xpath("//button[@type='button']")).click();
-			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", scroll2);
-			Thread.sleep(500);
+			driver.findElement(By.xpath("//button[@type='button']")).click();			
 		}
-	}
-
+	}	
+	public void criarVariosCupons() throws Exception{
+		for (int x=0; x <= 3; x++){
+			Thread.sleep(2000);
+			driver.findElement(By.linkText("Veja sugestão")).click();
+			Thread.sleep(5000);
+			driver.findElement(By.id("secret-word")).sendKeys(nome.gerarNome());
+			palavraSecreta = driver.findElement(By.id("secret-word")).getAttribute("value");			
+			driver.findElement(By.name("account")).click();
+			new Select(driver.findElement(By.name("account"))).selectByVisibleText("12%");
+			WebElement scroll = driver.findElement(By.cssSelector("rn-coupon-maker > div > div > div > div > h2"));
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", scroll);
+			Thread.sleep(500); 
+			driver.findElement(By.name("useLimit")).clear();
+			driver.findElement(By.name("useLimit")).sendKeys("2");
+			driver.findElement(By.id("btn-gerar-cupom")).click();
+			Thread.sleep(2000);
+			if (x == 3){
+				assertEquals("Você já criou o limite máximo de palavras secretas disponíveis. Você só poderá criar novas palavras quando as existentes já tiverem expirado.", driver.findElement(By.cssSelector("div.modal-body > h2.ng-binding")).getText());
+				driver.findElement(By.xpath("//button[@type='button']")).click();
+				break;
+			}
+			assertEquals("Cupom criado com sucesso.", driver.findElement(By.cssSelector("div.modal-body > h2.ng-binding")).getText());
+			driver.findElement(By.xpath("//button[@type='button']")).click();
+		}
+	}	
 }

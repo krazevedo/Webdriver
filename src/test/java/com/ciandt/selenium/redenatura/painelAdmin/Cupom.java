@@ -32,8 +32,9 @@ public class Cupom extends TestBase{
 		geral.abrir(driver);
 		loginPage.logar(properties.getProperties().getProperty("login.active"), properties.getProperties().getProperty("login.active.password"));
 		cupomPage.selecionarMenu();
+		cupomPage.encerrarCupom();
 		cupomPage.criarCupom();	
-		cupomPage.verificarCupomCriado();
+		cupomPage.verificarCupomCriado();		
 	}
 	
 	@Test
@@ -42,7 +43,17 @@ public class Cupom extends TestBase{
 		geral.abrir(driver);
 		loginPage.logar(properties.getProperties().getProperty("login.active"), properties.getProperties().getProperty("login.active.password"));
 		cupomPage.selecionarMenu();
-		
+		cupomPage.encerrarCupom();
+	}
+	
+	@Test
+	public void validarLimiteCupons() throws Exception {
+		properties.lerArquivo();
+		geral.abrir(driver);
+		loginPage.logar(properties.getProperties().getProperty("login.active"), properties.getProperties().getProperty("login.active.password"));
+		cupomPage.selecionarMenu();
+		cupomPage.encerrarCupom();
+		cupomPage.criarVariosCupons();		
 	}
 	
 	@After
