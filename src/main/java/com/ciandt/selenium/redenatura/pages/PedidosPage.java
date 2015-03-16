@@ -129,6 +129,7 @@ public class PedidosPage extends TestBase{
 	}
 
 	public void validaValoresTabelas() throws Exception{
+		Thread.sleep(2000);
 		properties.lerArquivo();
 		try {
 			assertEquals(properties.getProperties().getProperty("pedido.status.label"), driver.findElement(css.primeiraColunaIcone).getAttribute("class"));
