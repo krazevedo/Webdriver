@@ -7,6 +7,7 @@ public class CssSelectors {
 	  public By menuVisitas = By.cssSelector("ul#side-menu > li > a > span.fa.arrow");
 	  public By menuPedidos = By.cssSelector("ul#side-menu > li:nth-child(4) > a > span.fa.arrow");
 	  public By menuLealdade = By.cssSelector("ul#side-menu > li:nth-child(5) > a > span.fa.arrow");
+	  public By menuFale = By.cssSelector("ul#side-menu > li:nth-child(10) > a > span");
 	  public By menuAjuda = By.cssSelector("ul#side-menu > li:nth-child(11) > a > span");
 	  public By primeiroSubmenu = By.cssSelector("ul#side-menu > li.active > ul > li:nth-child(1) > a");
 	  public By segundoSubmenu = By.cssSelector("ul#side-menu > li.active > ul > li:nth-child(2) > a");
