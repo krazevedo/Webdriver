@@ -33,40 +33,41 @@ public class ClientesPage extends TestBase{
 
 	
 	public void validaColunasGrid() throws Exception{
+		properties.lerArquivo();
 		Thread.sleep(5000);
 		List<WebElement> forms = driver.findElements(css.nomeColunasGrid);
 		try {
-			assertEquals("Alertas", forms.get(0).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.coluna1"), forms.get(0).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("Cliente", forms.get(1).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.coluna2"), forms.get(1).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("Aniversário", forms.get(2).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.coluna3"), forms.get(2).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("Compras realizadas", forms.get(3).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.coluna4"), forms.get(3).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("Último pedido", forms.get(4).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.coluna5"), forms.get(4).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("Valor (com frete)", forms.get(5).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.coluna6"), forms.get(5).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals("Ações", forms.get(6).getText());
+			assertEquals(properties.getProperties().getProperty("cliente.coluna7"), forms.get(6).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}

@@ -13,7 +13,7 @@ public class HomePage extends TestBase{
 	public void verificarLogin() throws Exception{
 		for (int second = 0;; second++) {
 	    	if (second >= 60) fail("timeout");
-	    	try { if ("Bem-vindo,".equals(driver.findElement(By.cssSelector("div.col-lg-4 > h3 > span:nth-child(1)")).getText())) break; } catch (Exception e) {}
+	    	try { if ("Bem-vinda".equals(driver.findElement(By.cssSelector("div.col-lg-4 > h3 > span:nth-child(2)")).getText())) break; } catch (Exception e) {}
 	    	Thread.sleep(1000);
 	    }
 	}

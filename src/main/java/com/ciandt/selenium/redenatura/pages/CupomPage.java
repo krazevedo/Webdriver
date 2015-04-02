@@ -37,11 +37,12 @@ public class CupomPage extends TestBase{
 		driver.findElement(css.segundoSubmenu).click();		
 	}
 
-	public void verificaUrl() throws IOException{
+	public void verificaUrl() throws Exception{
+		Thread.sleep(5000);
 		properties.lerArquivo();
 		String previousURL = driver.getCurrentUrl();
 		try {
-			assertEquals(properties.getProperties().getProperty("url") + "/#/cupons-desconto", previousURL);
+			assertEquals(properties.getProperties().getProperty("url") + "#/cupons-desconto", previousURL);
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
@@ -50,7 +51,7 @@ public class CupomPage extends TestBase{
 	public void clicarVejaSugestao() throws Exception{
 		Thread.sleep(2000);
 		driver.findElement(By.linkText("Veja sugestão")).click();
-		Thread.sleep(5000);
+		Thread.sleep(10000);
 		try {
 			assertFalse((driver.findElement(By.id("secret-word")).getAttribute("value")).isEmpty());
 		} catch (Error e) {
@@ -59,20 +60,22 @@ public class CupomPage extends TestBase{
 	}
 
 	public String criarCupom() throws Exception{
+		properties.lerArquivo();
 		Thread.sleep(2000);
 		driver.findElement(By.linkText("Veja sugestão")).click();
 		Thread.sleep(5000);
 		palavraSecreta = driver.findElement(By.id("secret-word")).getAttribute("value") + nome.gerarNome();
+		driver.findElement(By.id("secret-word")).clear();
 		driver.findElement(By.id("secret-word")).sendKeys(palavraSecreta);
 		driver.findElement(By.name("account")).click();
-		new Select(driver.findElement(By.name("account"))).selectByVisibleText("12%");
+		new Select(driver.findElement(By.name("account"))).selectByVisibleText(properties.getProperties().getProperty("cupom.promocao"));
 		WebElement scroll = driver.findElement(By.cssSelector("rn-coupon-maker > div > div > div > div > h2"));
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", scroll);
 		Thread.sleep(500); 
 		driver.findElement(By.name("useLimit")).clear();
-		driver.findElement(By.name("useLimit")).sendKeys("2");
+		driver.findElement(By.name("useLimit")).sendKeys(properties.getProperties().getProperty("cupom.limite"));
 		driver.findElement(By.id("btn-gerar-cupom")).click();
-		Thread.sleep(2000);
+		Thread.sleep(10000);
 		assertEquals("Cupom criado com sucesso.", driver.findElement(By.cssSelector("div.modal-body > h2.ng-binding")).getText());
 		driver.findElement(By.xpath("//button[@type='button']")).click();	
 		return palavraSecreta;
@@ -103,15 +106,17 @@ public class CupomPage extends TestBase{
 			List<WebElement> tableRows = baseTable.findElements(By.className("ngCell"));
 			if (tableRows.size() == 0){
 				x = x + 3;
+				break;
 			}
 			List<WebElement> cellRows = tableRows.get(5).findElements(By.className("ngCellText"));
 			cellRows.get(0).findElement(By.tagName("a")).click();
-			Thread.sleep(2000);
+			Thread.sleep(10000);
 			assertEquals("Cupom cancelado com sucesso.", driver.findElement(By.cssSelector("div.modal-body > h2.ng-binding")).getText());
 			driver.findElement(By.xpath("//button[@type='button']")).click();			
 		}
 	}	
 	public void criarVariosCupons() throws Exception{
+		properties.lerArquivo();
 		for (int x=0; x <= 3; x++){
 			Thread.sleep(2000);
 			driver.findElement(By.linkText("Veja sugestão")).click();
@@ -119,14 +124,14 @@ public class CupomPage extends TestBase{
 			driver.findElement(By.id("secret-word")).sendKeys(nome.gerarNome());
 			palavraSecreta = driver.findElement(By.id("secret-word")).getAttribute("value");			
 			driver.findElement(By.name("account")).click();
-			new Select(driver.findElement(By.name("account"))).selectByVisibleText("12%");
+			new Select(driver.findElement(By.name("account"))).selectByVisibleText(properties.getProperties().getProperty("cupom.promocao"));
 			WebElement scroll = driver.findElement(By.cssSelector("rn-coupon-maker > div > div > div > div > h2"));
 			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", scroll);
 			Thread.sleep(500); 
 			driver.findElement(By.name("useLimit")).clear();
-			driver.findElement(By.name("useLimit")).sendKeys("2");
+			driver.findElement(By.name("useLimit")).sendKeys(properties.getProperties().getProperty("cupom.limite"));
 			driver.findElement(By.id("btn-gerar-cupom")).click();
-			Thread.sleep(2000);
+			Thread.sleep(10000);
 			if (x == 3){
 				assertEquals("Você já criou o limite máximo de palavras secretas disponíveis. Você só poderá criar novas palavras quando as existentes já tiverem expirado.", driver.findElement(By.cssSelector("div.modal-body > h2.ng-binding")).getText());
 				driver.findElement(By.xpath("//button[@type='button']")).click();

@@ -142,7 +142,7 @@ public class PedidosPage extends TestBase{
 			verificationErrors.append(e.toString());
 		}
 		try {
-			assertEquals(properties.getProperties().getProperty("pedido.id"), driver.findElement(css.primeiraColunaLink).getText());
+			assertEquals(properties.getProperties().getProperty("pedido.busca"), driver.findElement(css.primeiraColunaLink).getText());
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}

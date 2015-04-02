@@ -2,8 +2,10 @@ package com.ciandt.selenium.redenatura.pages;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.WebElement;
 
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
 import com.ciandt.selenium.redenatura.helpers.DataDriven;
@@ -21,9 +23,13 @@ public class FaleComAgentePage extends TestBase{
 
 	public void preencherMensagem() throws Exception{
 		properties.lerArquivo();
-		driver.findElement(By.name("type")).click();
-		new Select(driver.findElement(By.name("type"))).selectByVisibleText("Sugestao");
-	    driver.findElement(By.cssSelector("option[value=\"1\"]")).click();
+		WebElement select = driver.findElement(By.tagName("select"));
+		List<WebElement> allOptions = select.findElements(By.tagName("option"));
+		for (WebElement option : allOptions) {
+			if("1".equals(option.getAttribute("value"))){
+		        option.click();
+		    }
+		}
 		driver.findElement(By.name("message")).click();
 		driver.findElement(By.name("message")).clear();
 		driver.findElement(By.name("message")).sendKeys("teste");
@@ -35,7 +41,7 @@ public class FaleComAgentePage extends TestBase{
 
 	public void validarMensagem() throws Exception{
 		Thread.sleep(2000);
-		assertEquals("Mensagem enviada com sucesso", driver.findElement(By.cssSelector("h2.ng-binding")).getText());
+	    assertEquals("Obrigado por sua mensagem!", driver.findElement(By.cssSelector("div#modal-mensagens > div:nth-child(2) > div > div.modal-body > span")).getText());
 	    driver.findElement(By.xpath("//button[@type='button']")).click();
 	}
 	

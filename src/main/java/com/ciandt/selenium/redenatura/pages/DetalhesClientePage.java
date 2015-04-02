@@ -26,11 +26,12 @@ public class DetalhesClientePage extends TestBase{
 	Geral geral = new Geral();
 	DataDriven properties = new DataDriven();
 
-	public void verificaUrl() throws IOException{
+	public void verificaUrl() throws Exception{
+		Thread.sleep(5000);
 		properties.lerArquivo();
 		String previousURL = driver.getCurrentUrl();
 		try {
-			assertEquals(properties.getProperties().getProperty("url") + "/#/perfil-do-cliente/" + properties.getProperties().getProperty("cliente.id"), previousURL);
+			assertEquals(properties.getProperties().getProperty("url") + "#/perfil-do-cliente/" + properties.getProperties().getProperty("cliente.id"), previousURL);
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
@@ -72,6 +73,7 @@ public class DetalhesClientePage extends TestBase{
 			try { if ("Sub Total:".equals(driver.findElement(By.cssSelector("table.table.invoice-total > tbody > tr > td > strong.ng-scope")).getText())) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
+		Thread.sleep(5000);
 		WebElement baseTable = driver.findElement(By.cssSelector("div > div > rn-order-list > div > div > table.invoice-table"));
 		List<WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
 		try {
@@ -98,11 +100,11 @@ public class DetalhesClientePage extends TestBase{
 
 	public void verificaTotalItem() throws Exception{		
 		properties.lerArquivo();
-		WebElement baseTable = driver.findElement(By.cssSelector("div > div > rn-order-list > div > div.col-md-12 > table.invoice-table"));
+		Thread.sleep(5000);
+		WebElement baseTable = driver.findElement(By.cssSelector("div:nth-child(2) > div > div > rn-order-list > div > div.col-md-12 > table.invoice-table"));
 		List<WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
 		double soma = 0.0;		
 		List<WebElement> cellRows = tableRows.get(1).findElements(By.tagName("td"));
-		cellRows.size();
 		soma = (Integer.parseInt(cellRows.get(2).getText()) * Double.parseDouble(cellRows.get(3).getText().replaceAll("R|\\$| ", "").replaceAll(",", "."))) - Double.parseDouble(cellRows.get(4).getText().replaceAll("R|\\$| ", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll(",", "."));				
 		BigDecimal total = new BigDecimal(soma).setScale(2, RoundingMode.HALF_UP);
 		try {

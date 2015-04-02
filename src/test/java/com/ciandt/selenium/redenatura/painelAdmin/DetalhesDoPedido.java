@@ -66,6 +66,31 @@ public class DetalhesDoPedido extends TestBase{
 		detalhesPage.comparaValoresDetalhes();
 	}
 	
+	@Test
+	public void validarPedidoComFrete() throws Exception {
+		properties.lerArquivo();
+		geral.abrir(driver);
+		loginPage.logar(properties.getProperties().getProperty("login.active"), properties.getProperties().getProperty("login.active.password"));
+		pedidosPage.selecionarMenu();
+		geral.selecionarSemana(driver, properties.getProperties().getProperty("pedido.datapicker"), properties.getProperties().getProperty("pedido.datapicker.semana"));
+		geral.realizarBusca(driver, properties.getProperties().getProperty("detalhe.pedido.busca.frete"));
+		pedidosPage.selecionaPedido();	
+		detalhesPage.verificaValoresFreteCupom("frete");
+	}
+	
+	@Test
+	public void validarPedidoComCupom() throws Exception {
+		properties.lerArquivo();
+		geral.abrir(driver);
+		loginPage.logar(properties.getProperties().getProperty("login.active"), properties.getProperties().getProperty("login.active.password"));
+		pedidosPage.selecionarMenu();
+		geral.selecionarSemana(driver, properties.getProperties().getProperty("pedido.datapicker"), properties.getProperties().getProperty("pedido.datapicker.semana"));
+		geral.realizarBusca(driver, properties.getProperties().getProperty("detalhe.pedido.busca.cupom"));
+		pedidosPage.selecionaPedido();	
+		detalhesPage.verificaLabelCupom();
+		detalhesPage.verificaValoresFreteCupom("cupom");
+	}
+	
 	@After
 	public void tearDown(){
 		String verificationErrorString = detalhesPage.verificationErrors.toString();

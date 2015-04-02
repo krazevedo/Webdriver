@@ -23,7 +23,7 @@ public class DetalhesPedidoPage extends TestBase{
 	PedidosPage pedidosPage = new PedidosPage();
 	DataDriven properties = new DataDriven();
 
-	
+
 	public void verificaTotalPedido() throws Exception{
 		properties.lerArquivo();
 		for (int second = 0;; second++) {
@@ -31,6 +31,7 @@ public class DetalhesPedidoPage extends TestBase{
 			try { if ("Sub Total:".equals(driver.findElement(By.cssSelector("table.table.invoice-total > tbody > tr > td > strong.ng-scope")).getText())) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
+		Thread.sleep(2000);
 		WebElement baseTable = driver.findElement(By.cssSelector("div > div > rn-order-list > div > div > table.invoice-total"));
 		List<WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
 		double total = 0.0;
@@ -53,6 +54,33 @@ public class DetalhesPedidoPage extends TestBase{
 		}
 	}
 
+	public void verificaValoresFreteCupom(String tipo) throws Exception{
+		properties.lerArquivo();
+		for (int second = 0;; second++) {
+			if (second >= 60) fail("timeout");
+			try { if ("Sub Total:".equals(driver.findElement(By.cssSelector("table.table.invoice-total > tbody > tr > td > strong.ng-scope")).getText())) break; } catch (Exception e) {}
+			Thread.sleep(1000);
+		}
+		Thread.sleep(2000);
+		WebElement baseTable = driver.findElement(By.cssSelector("div > div > rn-order-list > div > div > table.invoice-total"));
+		List<WebElement> tableRows = baseTable.findElements(By.tagName("tr"));		
+		if (tipo == "frete"){	
+			List<WebElement> cellRows = tableRows.get(1).findElements(By.tagName("td"));
+			try {
+				assertEquals(properties.getProperties().getProperty("detalhe.pedido.valor.frete"), cellRows.get(1).getText());
+			} catch (Error e) {
+				verificationErrors.append(e.toString());
+			}
+		} else if(tipo == "cupom"){
+			List<WebElement> cellRows = tableRows.get(2).findElements(By.tagName("td"));
+			try {
+				assertEquals(properties.getProperties().getProperty("detalhe.pedido.valor.cupom"), cellRows.get(1).getText());
+			} catch (Error e) {
+				verificationErrors.append(e.toString());
+			}
+		}		
+	}
+
 	public void verificaDescricaoProduto() throws Exception{
 		properties.lerArquivo();
 		for (int second = 0;; second++) {
@@ -60,6 +88,7 @@ public class DetalhesPedidoPage extends TestBase{
 			try { if ("Sub Total:".equals(driver.findElement(By.cssSelector("table.table.invoice-total > tbody > tr > td > strong.ng-scope")).getText())) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
+		Thread.sleep(2000);
 		WebElement baseTable = driver.findElement(By.cssSelector("div > div > rn-order-list > div > div > table.invoice-table"));
 		List<WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
 		try {
@@ -100,8 +129,6 @@ public class DetalhesPedidoPage extends TestBase{
 		}
 	}
 
-	
-
 	public void comparaValoresDetalhes() throws Exception{
 		properties.lerArquivo();
 		for (int second = 0;; second++) {
@@ -109,6 +136,7 @@ public class DetalhesPedidoPage extends TestBase{
 			try { if ("Sub Total:".equals(driver.findElement(By.cssSelector("table.table.invoice-total > tbody > tr > td > strong.ng-scope")).getText())) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
+		Thread.sleep(2000);
 		WebElement baseTable = driver.findElement(By.cssSelector("div > div > rn-order-list > div > div > table.invoice-total"));
 		List<WebElement> tableRows = baseTable.findElements(By.tagName("tr"));
 		List<WebElement> cellRows = tableRows.get(3).findElements(By.tagName("td"));
@@ -122,6 +150,20 @@ public class DetalhesPedidoPage extends TestBase{
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}		
+	}
+
+	public void verificaLabelCupom() throws Exception{
+		properties.lerArquivo();
+		for (int second = 0;; second++) {
+			if (second >= 60) fail("timeout");
+			try { if ("Sub Total:".equals(driver.findElement(By.cssSelector("table.table.invoice-total > tbody > tr > td > strong.ng-scope")).getText())) break; } catch (Exception e) {}
+			Thread.sleep(1000);
+		}
+		try {
+			assertEquals(properties.getProperties().getProperty("detalhe.pedido.label.cupom"), driver.findElement(By.cssSelector("div > dl > dd:nth-child(6) > span.text-navy")).getText());
+		} catch (Error e) {
+			verificationErrors.append(e.toString());
+		}	
 	}
 
 
