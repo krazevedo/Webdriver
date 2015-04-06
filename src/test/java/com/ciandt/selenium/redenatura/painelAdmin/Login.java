@@ -87,7 +87,7 @@ public class Login extends TestBase{
 		properties.lerArquivo();
 		geral.abrir(driver);
 		loginPage.logar(properties.getProperties().getProperty("login.activenotaccepted"), properties.getProperties().getProperty("login.activenotaccepted.password"));
-		homePage.verificarLogin();
+		homePage.verificarContrato();
 	}
 	
 	@Test

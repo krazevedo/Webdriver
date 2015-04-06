@@ -18,5 +18,12 @@ public class HomePage extends TestBase{
 	    }
 	}
 	
+	public void verificarContrato() throws Exception{
+		for (int second = 0;; second++) {
+	    	if (second >= 60) fail("timeout");
+	    	try { if ("Contrato de franquia".equals(driver.findElement(By.cssSelector("form#acceptAgreement > div > div > h2.sub-title")).getText())) break; } catch (Exception e) {}
+	    	Thread.sleep(1000);
+	    }
+	}
 	
 }

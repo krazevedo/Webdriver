@@ -56,6 +56,16 @@ public class Cupom extends TestBase{
 		cupomPage.criarVariosCupons();		
 	}
 	
+	@Test
+	public void validarBlackList() throws Exception {
+		properties.lerArquivo();
+		geral.abrir(driver);
+		loginPage.logar(properties.getProperties().getProperty("login.active"), properties.getProperties().getProperty("login.active.password"));
+		cupomPage.selecionarMenu();
+		cupomPage.encerrarCupom();
+		cupomPage.criarCupomBlackList("AVON");		
+	}
+	
 	@After
 	public void tearDown(){
 		String verificationErrorString = cupomPage.verificationErrors.toString();

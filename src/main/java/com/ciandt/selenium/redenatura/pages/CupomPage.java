@@ -2,13 +2,6 @@ package com.ciandt.selenium.redenatura.pages;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-
-
-
-
-
-
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -141,4 +134,22 @@ public class CupomPage extends TestBase{
 			driver.findElement(By.xpath("//button[@type='button']")).click();
 		}
 	}	
+
+	public void criarCupomBlackList(String palavraSecreta) throws Exception{
+		properties.lerArquivo();
+		Thread.sleep(2000);		
+		driver.findElement(By.id("secret-word")).clear();
+		driver.findElement(By.id("secret-word")).sendKeys(palavraSecreta);
+		driver.findElement(By.name("account")).click();
+		new Select(driver.findElement(By.name("account"))).selectByVisibleText(properties.getProperties().getProperty("cupom.promocao"));
+		WebElement scroll = driver.findElement(By.cssSelector("rn-coupon-maker > div > div > div > div > h2"));
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", scroll);
+		Thread.sleep(500); 
+		driver.findElement(By.name("useLimit")).clear();
+		driver.findElement(By.name("useLimit")).sendKeys(properties.getProperties().getProperty("cupom.limite"));
+		driver.findElement(By.id("btn-gerar-cupom")).click();
+		Thread.sleep(10000);
+		assertEquals("A palavra secreta não esta disponível.", driver.findElement(By.cssSelector("div.modal-body > h2.ng-binding")).getText());
+		driver.findElement(By.xpath("//button[@type='button']")).click();			
+	}
 }

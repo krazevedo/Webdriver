@@ -40,7 +40,8 @@ public class Geral{
 		return dataHora;
 	}
 
-	public void selecionarSemana(WebDriver driver, String mes, String s){
+	public void selecionarSemana(WebDriver driver, String mes, String s) throws Exception{
+		Thread.sleep(2000);
 		driver.findElement(By.cssSelector("div:nth-child(1) > rn-weekly-calendar > div > div > input")).click();
 		int semana = Integer.parseInt(s);
 		for (int i=0; i < 12; i++){
