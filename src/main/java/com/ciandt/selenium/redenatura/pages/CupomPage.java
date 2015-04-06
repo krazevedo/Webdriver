@@ -124,7 +124,7 @@ public class CupomPage extends TestBase{
 			driver.findElement(By.name("useLimit")).clear();
 			driver.findElement(By.name("useLimit")).sendKeys(properties.getProperties().getProperty("cupom.limite"));
 			driver.findElement(By.id("btn-gerar-cupom")).click();
-			Thread.sleep(10000);
+			Thread.sleep(5000);
 			if (x == 3){
 				assertEquals("Você já criou o limite máximo de palavras secretas disponíveis. Você só poderá criar novas palavras quando as existentes já tiverem expirado.", driver.findElement(By.cssSelector("div.modal-body > h2.ng-binding")).getText());
 				driver.findElement(By.xpath("//button[@type='button']")).click();
