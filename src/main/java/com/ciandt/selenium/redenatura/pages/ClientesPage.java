@@ -1,13 +1,17 @@
 package com.ciandt.selenium.redenatura.pages;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
 import com.ciandt.selenium.redenatura.helpers.DataDriven;
@@ -15,10 +19,12 @@ import com.ciandt.selenium.redenatura.painelAdmin.TestBase;
 
 
 public class ClientesPage extends TestBase{
-
-	public StringBuffer verificationErrors = new StringBuffer();
+	private long timeStart;
+    private long timeEnd;
+    public StringBuffer verificationErrors = new StringBuffer();
 	CssSelectors css = new CssSelectors();
 	DataDriven properties = new DataDriven();
+	
 	
 	public void selecionarMenu() throws Exception{
 		driver.findElement(css.menuVisitas).click();
@@ -29,6 +35,7 @@ public class ClientesPage extends TestBase{
 			try { if (isElementPresent(css.iconePrint)) break; } catch (Exception e) {}
 			Thread.sleep(1000);
 		}
+		timeStart = System.currentTimeMillis();
 	}
 
 	
@@ -108,6 +115,17 @@ public class ClientesPage extends TestBase{
 	
 	public void clicarGerarCupom(){
 		driver.findElement(By.linkText("gerar cupom")).click();
+	}
+	
+	public void esperarCarregamento(){
+		WebDriverWait wait = new WebDriverWait(driver, 120);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(css.primeiraColunaLink));
+		timeEnd = System.currentTimeMillis();
+	}
+	
+	public void tempoCarregamento(String env){
+		double seconds = (timeEnd-timeStart)/1000.0;
+        System.out.println((env + " - " + "Time elapsed: "+new DecimalFormat("0.000").format(seconds)+" sec\n"));
 	}
 
 	private boolean isElementPresent(By by) {

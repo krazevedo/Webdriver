@@ -21,8 +21,8 @@ public class Clientes extends TestBase{
 	CupomPage cupomPage = new CupomPage();
 	DataDriven properties = new DataDriven();
 	Geral geral = new Geral();
-	
-	
+
+/*
 	@Test
 	public void verificarColunasGrid() throws Exception {
 		properties.lerArquivo();
@@ -31,7 +31,7 @@ public class Clientes extends TestBase{
 		clientesPage.selecionarMenu();
 		clientesPage.validaColunasGrid();		
 	}
-	
+
 	@Test
 	public void verificarValoresTabelas() throws Exception {
 		properties.lerArquivo();
@@ -41,7 +41,7 @@ public class Clientes extends TestBase{
 		geral.realizarBusca(driver, properties.getProperties().getProperty("cliente.busca"));
 		clientesPage.validaValoresTabelas();
 	}
-	
+
 	@Test
 	public void verificarBotaoVerPerfil() throws Exception {
 		properties.lerArquivo();
@@ -52,7 +52,7 @@ public class Clientes extends TestBase{
 		clientesPage.clicarVerPerfil();
 		detalhesPage.verificaUrl();
 	}
-	
+
 	@Test
 	public void verificarBotaoGerarCupom() throws Exception {
 		properties.lerArquivo();
@@ -63,7 +63,27 @@ public class Clientes extends TestBase{
 		clientesPage.clicarGerarCupom();
 		cupomPage.verificaUrl();
 	}
+*/
+	@Test
+	public void verificarPerformanceHML() throws Exception {
+		properties.lerArquivo();
+		geral.abrir(driver);
+		loginPage.logar(properties.getProperties().getProperty("login.performance"), properties.getProperties().getProperty("login.performance.password"));
+		clientesPage.selecionarMenu();	
+		clientesPage.esperarCarregamento();
+		clientesPage.tempoCarregamento("HML");		
+	}
 	
+	@Test
+	public void verificarPerformanceAlfeu() throws Exception {
+		properties.lerArquivo();
+		geral.abrir2(driver);
+		loginPage.logar(properties.getProperties().getProperty("login.performance"), properties.getProperties().getProperty("login.performance.password"));
+		clientesPage.selecionarMenu();	
+		clientesPage.esperarCarregamento();
+		clientesPage.tempoCarregamento("Alfeu");
+	}
+
 	@After
 	public void tearDown(){
 		String verificationErrorString = clientesPage.verificationErrors.toString();

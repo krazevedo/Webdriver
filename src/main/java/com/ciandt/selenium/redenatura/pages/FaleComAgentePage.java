@@ -40,7 +40,7 @@ public class FaleComAgentePage extends TestBase{
 	}
 
 	public void validarMensagem() throws Exception{
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 	    assertEquals("Obrigado por sua mensagem!", driver.findElement(By.cssSelector("div#modal-mensagens > div:nth-child(2) > div > div.modal-body > span")).getText());
 	    driver.findElement(By.xpath("//button[@type='button']")).click();
 	}

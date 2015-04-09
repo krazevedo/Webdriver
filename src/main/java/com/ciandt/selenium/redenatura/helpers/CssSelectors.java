@@ -13,6 +13,10 @@ public class CssSelectors {
 	  public By segundoSubmenu = By.cssSelector("ul#side-menu > li.active > ul > li:nth-child(2) > a");
 	  public By terceiroSubmenu = By.cssSelector("ul#side-menu > li.active > ul > li:nth-child(3) > a");
 	  public By quartoSubmenu = By.cssSelector("ul#side-menu > li.active > ul > li:nth-child(4) > a");
+	  public By menuConfiguracoes = By.cssSelector("span.ng-scope");
+	  public By primeiroSubmenuConf = By.cssSelector("ul#side-menu > li > div > ul > li:nth-child(1) > a");
+	  public By segundoSubmenuConf = By.cssSelector("ul#side-menu > li > div > ul > li:nth-child(2) > a");
+
 	  
 	  //Home
 	  /// Box Pilares

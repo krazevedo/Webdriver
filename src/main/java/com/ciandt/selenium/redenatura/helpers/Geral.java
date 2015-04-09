@@ -19,6 +19,11 @@ public class Geral{
 		properties.lerArquivo();
 		driver.get(properties.getProperties().getProperty("url"));	
 	}
+	
+	public void abrir2(WebDriver driver) throws IOException{
+		properties.lerArquivo();
+		driver.get(properties.getProperties().getProperty("url.alfeu"));	
+	}
 
 	public void realizarBusca(WebDriver driver, String pesquisa) throws Exception{
 		driver.findElement(css.campoTexto).clear();
