@@ -3,17 +3,22 @@ package com.ciandt.selenium.redenatura.pages;
 import static org.junit.Assert.*;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
 import com.ciandt.selenium.redenatura.helpers.DataDriven;
+import com.ciandt.selenium.redenatura.helpers.Geral;
 import com.ciandt.selenium.redenatura.painelAdmin.TestBase;
 
 
@@ -23,6 +28,8 @@ public class PedidosPage extends TestBase{
 	CssSelectors css = new CssSelectors();
 	DataDriven properties = new DataDriven();
 	public String valorGrid;
+	Geral geral = new Geral();
+	
 
 	public void selecionarMenu() throws Exception{
 		driver.findElement(css.menuPedidos).click();
@@ -81,7 +88,7 @@ public class PedidosPage extends TestBase{
 	}
 
 	public void selecionaPedido(){
-		driver.findElement(css.primeiraColunaLink).click();		
+		driver.findElement(css.primeiraColunaLink).click();	
 	}
 
 	public void resgatarSaldo(){
@@ -187,7 +194,8 @@ public class PedidosPage extends TestBase{
 			}
 		}
 	}
-
+	
+	
 	private boolean isElementPresent(By by) {
 		try {
 			driver.findElement(by);

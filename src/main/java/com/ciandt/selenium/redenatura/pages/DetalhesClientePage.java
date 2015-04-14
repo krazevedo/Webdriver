@@ -6,13 +6,17 @@ package com.ciandt.selenium.redenatura.pages;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
 import com.ciandt.selenium.redenatura.helpers.DataDriven;
@@ -25,6 +29,7 @@ public class DetalhesClientePage extends TestBase{
 	public String valorGrid;
 	Geral geral = new Geral();
 	DataDriven properties = new DataDriven();
+	ClientesPage clientePage = new ClientesPage();
 
 	public void verificaUrl() throws Exception{
 		Thread.sleep(5000);
@@ -139,6 +144,4 @@ public class DetalhesClientePage extends TestBase{
 			verificationErrors.append(e.toString());
 		}		
 	}
-
-
 }

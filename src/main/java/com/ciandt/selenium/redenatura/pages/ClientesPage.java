@@ -5,6 +5,8 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -19,13 +21,13 @@ import com.ciandt.selenium.redenatura.painelAdmin.TestBase;
 
 
 public class ClientesPage extends TestBase{
-	private long timeStart;
-    private long timeEnd;
-    public StringBuffer verificationErrors = new StringBuffer();
+	public long timeStart;
+	private long timeEnd;
+	public StringBuffer verificationErrors = new StringBuffer();
 	CssSelectors css = new CssSelectors();
 	DataDriven properties = new DataDriven();
-	
-	
+
+
 	public void selecionarMenu() throws Exception{
 		driver.findElement(css.menuVisitas).click();
 		Thread.sleep(2000);
@@ -36,9 +38,11 @@ public class ClientesPage extends TestBase{
 			Thread.sleep(1000);
 		}
 		timeStart = System.currentTimeMillis();
+		String timeStampStart = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
+		System.out.println("Clique no menu: " + timeStampStart);
 	}
 
-	
+
 	public void validaColunasGrid() throws Exception{
 		properties.lerArquivo();
 		Thread.sleep(5000);
@@ -108,24 +112,16 @@ public class ClientesPage extends TestBase{
 			verificationErrors.append(e.toString());
 		}
 	}	
-	
+
 	public void clicarVerPerfil(){
 		driver.findElement(By.linkText("ver perfil")).click();
+		timeStart = System.currentTimeMillis();
+		String timeStampStart = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
+		System.out.println("Clique no login: " + timeStampStart);
 	}
-	
+
 	public void clicarGerarCupom(){
 		driver.findElement(By.linkText("gerar cupom")).click();
-	}
-	
-	public void esperarCarregamento(){
-		WebDriverWait wait = new WebDriverWait(driver, 120);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(css.primeiraColunaLink));
-		timeEnd = System.currentTimeMillis();
-	}
-	
-	public void tempoCarregamento(String env){
-		double seconds = (timeEnd-timeStart)/1000.0;
-        System.out.println((env + " - " + "Time elapsed: "+new DecimalFormat("0.000").format(seconds)+" sec\n"));
 	}
 
 	private boolean isElementPresent(By by) {

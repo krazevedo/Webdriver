@@ -2,6 +2,7 @@ package com.ciandt.selenium.redenatura.helpers;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,15 +15,16 @@ import com.ciandt.selenium.redenatura.helpers.DataDriven;
 public class Geral{
 	DataDriven properties = new DataDriven();	
 	CssSelectors css = new CssSelectors();
+	public long timeStart;
 
 	public void abrir(WebDriver driver) throws IOException{
 		properties.lerArquivo();
 		driver.get(properties.getProperties().getProperty("url"));	
 	}
 	
-	public void abrir2(WebDriver driver) throws IOException{
+	public void abrir2(WebDriver driver, String env) throws IOException{
 		properties.lerArquivo();
-		driver.get(properties.getProperties().getProperty("url.alfeu"));	
+		driver.get(properties.getProperties().getProperty(env));	
 	}
 
 	public void realizarBusca(WebDriver driver, String pesquisa) throws Exception{
@@ -60,5 +62,8 @@ public class Geral{
 				driver.findElement(By.cssSelector("div.datepicker-days > table > thead > tr > th.prev")).click();
 			}
 		}
+		timeStart = System.currentTimeMillis();
+		String timeStampStart = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
+		System.out.println("Clique no OK: " + timeStampStart);
 	}
 }

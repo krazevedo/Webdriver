@@ -8,10 +8,15 @@ import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
 import com.ciandt.selenium.redenatura.helpers.DataDriven;
@@ -22,7 +27,7 @@ public class DetalhesPedidoPage extends TestBase{
 	CssSelectors css = new CssSelectors();
 	PedidosPage pedidosPage = new PedidosPage();
 	DataDriven properties = new DataDriven();
-
+	
 
 	public void verificaTotalPedido() throws Exception{
 		properties.lerArquivo();
@@ -165,6 +170,5 @@ public class DetalhesPedidoPage extends TestBase{
 			verificationErrors.append(e.toString());
 		}	
 	}
-
 
 }

@@ -1,15 +1,23 @@
 package com.ciandt.selenium.redenatura.pages;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.Assert.fail;
+
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
 import com.ciandt.selenium.redenatura.painelAdmin.TestBase;
 
 public class HomePage extends TestBase{
+	LoginPage loginPage = new LoginPage();
 	public StringBuffer verificationErrors = new StringBuffer();
 	CssSelectors css = new CssSelectors();
-	
+		
 	public void verificarLogin() throws Exception{
 		for (int second = 0;; second++) {
 	    	if (second >= 60) fail("timeout");

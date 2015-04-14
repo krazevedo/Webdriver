@@ -2,11 +2,16 @@ package com.ciandt.selenium.redenatura.pages;
 
 import static org.junit.Assert.*;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.ciandt.selenium.redenatura.helpers.CssSelectors;
 import com.ciandt.selenium.redenatura.painelAdmin.TestBase;
@@ -103,6 +108,7 @@ public class LoginPage extends TestBase{
 			Thread.sleep(1000);
 		}	
 	}
+	
 
 	private boolean isElementPresent(By by) {
 		try {
